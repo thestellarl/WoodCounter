@@ -1,0 +1,85 @@
+* {
+  box-sizing: border-box;
+  font-family: "Bahnschrift";
+  touch-action: pan-y;
+}
+
+body {
+  background-color: #f5f7f8;
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+}
+
+.box {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+#power-off-button {
+  border: 1px solid red;
+  background: #ffffff;
+  color: #000000;
+  padding: 4px 4px;
+  height: min-content;
+  border-radius: 4px;
+}
+
+.width-span {
+  position: sticky;
+  top: 0px;
+  z-index: 2;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10vw;
+  background-color: #344151;
+  color: #ffffff;
+  flex: 0 1 auto;
+}
+
+#board-queue-wrapper {
+  background-color: #ffffff;
+  flex: 1 1 auto;
+  margin-top: 50px;
+  padding: 0 5vw;
+}
+
+#remove-wrapper {
+  background-color: #ff0000;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+  position: absolute;
+  right: 0;
+  height: 100%;
+  width: 50%;
+}
+
+.board-inner-wrapper {
+  font-size: inherit;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: #cccccc;
+  transition: left 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.board {
+  background-color: #8f6f4a;
+  height: 40px;
+}
+
+.board-wrapper {
+  position: relative;
+  height: 100px;
+  min-width: 80vw;
+  font-size: 24pt;
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
