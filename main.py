@@ -1,52 +1,83 @@
+from werkzeug.utils import redirect
 import serial, socket
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, make_response, request, Response
 from flask_socketio import SocketIO, emit, send
-import random, json, uuid, time, gspread
+import uuid, gspread, time, random, typing, os
 gc = gspread.service_account()
 from threading import Thread
-import queue
 sh = gc.open("End Matcher Board Counter")
 
-def push_to_sheets(data):
-  sh.values_append('Sheet2!A1', params={'valueInputOption': 'RAW'}, body={ 'values': [[x] for x in data]})
+# ser = serial.Serial('/dev/ttyUSB0', 9600, bytesize=serial.SEVENBITS, timeout=None, parity=serial.PARITY_EVEN, rtscts=1, dsrdtr=1)
+rounding_accuracy = 0.25
+board_length_offset = 0
 
-ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=0, parity=serial.PARITY_EVEN, rtscts=1)
+def is_board_packet(packet: typing.ByteString) -> bool:
+  return len(packet) == 108
 
-def process_serial():
-  
+# Return Total board length @ E2 and average length @ E3
+def get_job_stats():
+  return sh.get_worksheet_by_id(0).batch_get(['E2', 'E3'])
 
-  for x in range(20):
-    data_queue.put(x)
-    time.sleep(1)
+def generate_mock_data(n: int):
+  for _ in range(n):
+    time.sleep(2)
     id = uuid.uuid4()
     length = random.randint(5, 100)
-    sh.values_append('Sheet2!A1', params={'valueInputOption': 'RAW'}, body={ 'values': [[str(id), length]]})
-    socketio.send(f"{{\"id\":\"{id}\", \"length\":{length}}}")
+    sh.values_append('Sheet2!A1', params={'valueInputOption': 'RAW'}, body={ 'values': [[str(id), length, 'A']]})
+    total_length, average_length = get_job_stats()
+    socketio.send(f"{{\"id\":\"{id}\", \"length\":{length}, \"totalLength\":{total_length[0][0]}, \"averageLength\":{average_length[0][0]}}}")
   return
 
-def handle_remove(id):
-  ws = sh.get_worksheet_by_id(1111478912)
-  cell = ws.find(id, in_column=0)
-  ws.update_acell(f'B{cell.row}', '')
-  return True
+def process_serial():
+  generate_mock_data(120)
+  # board_index = -1
+  # while True:
+  #   a = ser.read_until(expected=b'\x03')
+  #   packet_start = a.find(b'\x02')
+  #   hex_string = a[packet_start + 1:-1].decode('utf-8')
+  #   hex_flipped = "".join(reversed([hex_string[i:i+2] for i in range(0, len(hex_string), 2)]))
+  #   if is_board_packet(hex_flipped):
+  #     board_num = int(hex_flipped[-8:], 16)
+  #     board_len = int(hex_flipped[:8], 16)
+  #     if board_index == -1 or board_num != board_index:
+  #       board_index = board_num
+  #       print('board num', int(hex_flipped[-8:], 16))
+  #       print('board len', int(hex_flipped[:8], 16)/100)
+  #       length = board_len/100
+  #       id = uuid.uuid4()
+  #       sh.values_append('Sheet2!A1', params={'valueInputOption': 'RAW'}, body={ 'values': [[str(id), length]]})
+  #       socketio.send(f"{{\"id\":\"{id}\", \"length\":{length}}}")
 
-data_queue = queue.Queue()
-x = Thread(target=process_serial)
+def archive_handler(id: str) -> bool:
+  try:
+    ws = sh.get_worksheet_by_id(1111478912)
+    cell = ws.find(id, in_column=0)
+    ws.update_acell(f'C{cell.row}', 'B')
+    total_length, average_length = get_job_stats()
+    socketio.send(f"{{\"totalLength\":{total_length[0][0]}, \"averageLength\":{round(float(average_length[0][0]), 2)}}}")
+    return True
+  except Exception as e:
+    print('Error thrown, Unable to remove')
+    print(e)
+    return False
 
-  # try:
-  #   ser_data = ser.read_until(expected='\x03')
-  #   decoded_data = ser_data.decode('utf-8')
-  #   packet_start = decoded_data.find('\x02')
-  #   if packet_start == -1:
-  #     continue
-  #   packet_data = decoded_data[packet_start + 1: -1]
-  #   board_length = int.from_bytes(packet_data[-8:], byteorder='little')
-  # except:
-  #   print('Keyboard Interrupt')
-  #   break
+def handle_remove(id: str) -> bool:
+  try:
+    ws = sh.get_worksheet_by_id(1111478912)
+    cell = ws.find(id, in_column=0)
+    ws.update_acell(f'B{cell.row}', '')
+    total_length, average_length = get_job_stats()
+    socketio.send(f"{{\"totalLength\":{total_length[0][0]}, \"averageLength\":{round(float(average_length[0][0]), 2)}}}")
+    return True
+  except Exception as e:
+    print('Error thrown, Unable to remove')
+    print(e)
+    return False
+
+serial_reader_t = Thread(target=process_serial)
 
 def main():
-  x.start()
+  serial_reader_t.start()
   socketio.run(app, host="0.0.0.0")
   pass
 
@@ -58,18 +89,39 @@ socketio = SocketIO(app)
 def send_js(path):
   return send_from_directory('static', path)
 
+@app.route('/settings', methods=['GET', 'POST'])
+def settings():
+  global rounding_accuracy, board_length_offset
+  if request.method == 'GET':
+    return render_template('settings.html', rounding_accuracy=rounding_accuracy, length_offset=board_length_offset)
+  if request.method == 'POST':
+    rounding_accuracy = request.form['acc']
+    board_length_offset = request.form['offset']
+    return redirect('/')
+
 @app.route('/')
 def index():
   return render_template('index.html')
 
 @socketio.on('connect')
 def handle_connect():
+  total_length, average_length = get_job_stats()
+  socketio.send(f"{{\"totalLength\":{total_length[0][0]}, \"averageLength\":{round(float(average_length[0][0]), 2)}}}")
   print('user connected')
 
 @socketio.on('remove board')
-def handle_connect(id):
+def remove_handler(id):
   if handle_remove(id):
     emit('board removed', id)
+
+@socketio.on('archive board')
+def handle_archive(id):
+  if archive_handler(id):
+    emit('board removed', id)
+
+@socketio.on('shutdown')
+def shutdown():
+  os.system("sudo shutdown -h now")
 
 @socketio.on('message')
 def handle_message(data):

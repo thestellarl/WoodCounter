@@ -3,38 +3,68 @@ window.onload = () => {
   const boardMap = {};
 
   var socket = io();
+
+  const totalLengthHeader = document.getElementById("total-length");
+  const averageLengthHeader = document.getElementById("average-length");
+  const queueWrapper = document.getElementById("board-queue-wrapper");
+
+  const goFullscreen = () => {
+    document.documentElement.requestFullscreen();
+    document.getElementById("fullscreen-button").remove();
+  };
+
+  document
+    .getElementById("fullscreen-button")
+    .addEventListener("click", goFullscreen);
+
   socket.on("connect", function () {
     socket.emit("my event", { data: "I'm connected!" });
     console.log("connected");
   });
 
   const addBoardHandler = (boardData) => {
+    if (!boardData.id) return;
     boards.push(boardData.id);
     boardMap[boardData.id] = { ...boardData };
     addBoardToDOM(boardData);
+    if (queueWrapper.childElementCount > 5) removeBoardFromDOM();
+  };
+
+  const updateFooter = (boardData) => {
+    const { totalLength, averageLength } = boardData;
+    totalLengthHeader.innerHTML = totalLength;
+    averageLengthHeader.innerHTML = averageLength;
   };
 
   const draggableBoard = (boardElement, id) => {
     var pos1 = 0,
       pos2 = 0;
     const onDragBoardStart = (e) => {
+      const archiveWrapper = document.createElement("div");
+      boardElement.parentElement.appendChild(archiveWrapper);
+      archiveWrapper.setAttribute("id", "archive-wrapper");
+      archiveWrapper.appendChild(document.createTextNode(`X`));
+
       const removeWrapper = document.createElement("div");
       boardElement.parentElement.appendChild(removeWrapper);
       removeWrapper.setAttribute("id", "remove-wrapper");
       removeWrapper.appendChild(document.createTextNode(`X`));
+
       pos1 = e.touches[0].clientX;
       document.ontouchmove = dragBoardHandler;
       document.ontouchend = onDragBoardEnd;
     };
 
     const onDragBoardEnd = () => {
-      if (pos2 < (-1 * window.innerWidth) / 4) {
+      if (Math.abs(pos2 / window.innerWidth) > 0.1) {
+        if (pos2 < 0) socket.emit("remove board", id);
+        if (pos2 > 0) socket.emit("archive board", id);
         boardElement.parentElement.style.opacity = 0;
-        socket.emit("remove board", id);
       } else {
         boardElement.style.left = 0;
       }
       document.getElementById("remove-wrapper").remove();
+      document.createElement("archive-wrapper").remove();
       document.ontouchend = null;
       document.ontouchmove = null;
     };
@@ -49,7 +79,6 @@ window.onload = () => {
   };
 
   const addBoardToDOM = ({ id, length }) => {
-    const queueWrapper = document.getElementById("board-queue-wrapper");
     const outerWrapper = document.createElement("div");
     const innerWrapper = document.createElement("div");
     const board = document.createElement("div");
@@ -67,9 +96,14 @@ window.onload = () => {
     document.scrollTop = document.scrollHeight;
   };
 
+  const removeBoardFromDOM = () => {
+    queueWrapper.firstChild.remove();
+  };
+
   socket.on("message", (board) => {
-    addBoardHandler(JSON.parse(board));
-    console.log(JSON.parse(board));
+    let boardData = JSON.parse(board);
+    addBoardHandler(boardData);
+    updateFooter(boardData);
   });
 
   socket.on("board removed", (id) => {
@@ -82,7 +116,8 @@ window.onload = () => {
     }, 400);
   });
 
-  document
-    .getElementById("power-off-button")
-    .addEventListener("click", () => console.log("power off"));
+  document.getElementById("power-off-button").addEventListener("click", () => {
+    returnValue = confirm("Are you sure you want to shutdown?");
+    if (returnValue) socket.emit("shutdown");
+  });
 };

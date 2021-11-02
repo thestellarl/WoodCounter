@@ -4,21 +4,30 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='main.css') }}"
-    />
-    <script src="{{ url_for('static', filename='index.js') }}"></script>
+    <link rel="stylesheet" href="main.css" />
+    <script src="index.js"></script>
     <title>End Matcher Tally Device</title>
   </head>
-  <body>
-    <div class="box">
-      <div class="width-span">
-        <h1>End Match Machine Tabulator</h1>
-        <div id="power-off-button">Power Off</div>
+  <body>      
+    <div class="width-span">
+        <h1><a href="">End Match Machine Tabulator</a></h1>
+        <div class="horizontal-flex">
+          <h2 id="fullscreen-button">Fullscreen</h2>
+          <h2><a href="settings">Settings</a></h2>
+          <h2 id="power-off-button">Power Off</h2>
+        </div>
       </div>
       <div id="board-queue-wrapper"></div>
     </div>
+    <div id="footer">
+      <div>
+        <h1>Total:</h1>
+        <h1 id="total-length"></h1>
+      </div>
+      <div>
+        <h1>Average:</h1>
+        <h1 id="average-length"></h1>
+      </div>
   </body>
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"

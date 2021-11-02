@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="main.css" />
+    <script src="settings.js"></script>
+    <title>End Matcher Settings</title>
+  </head>
+  <body>
+    <div class="box">
+      <div class="width-span">
+        <h1><a href="/">End Match Machine Tabulator</a></h1>
+        <div class="horizontal-flex">
+          <h2><a href="settings">Settings</a></h2>
+          <h2>Power Off</h2>
+        </div>
+      </div>
+      <h1 id="settings-header">Settings</h1>
+      <div class="settings-wrapper">
+        <form action="/settings" method="post">
+          <h3>Rounding Accuracy</h3>
+          <input
+            type="number"
+            name="acc"
+            step="any"
+            value="{{rounding_accuracy}}"
+          />
+          <h3>Board Length Offset</h3>
+          <input
+            type="number"
+            name="offset"
+            step="any"
+            value="{{length_offset}}"
+          />
+          <input type="submit" value="submit" />
+        </form>
+      </div>
+    </div>
+  </body>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+    integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+    crossorigin="anonymous"
+  ></script>
+</html>
