@@ -1,7 +1,7 @@
 window.onload = () => {
   let boards = [];
   const boardMap = {};
-
+  var audio = new Audio('beep.mp3');
   var socket = io();
 
   const totalLengthHeader = document.getElementById("total-length");
@@ -24,6 +24,7 @@ window.onload = () => {
 
   const addBoardHandler = (boardData) => {
     if (!boardData.id) return;
+    audio.play();
     boards.push(boardData.id);
     boardMap[boardData.id] = { ...boardData };
     addBoardToDOM(boardData);

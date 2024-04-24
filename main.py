@@ -1,13 +1,12 @@
-from werkzeug.utils import redirect
 import serial, socket
-from flask import Flask, render_template, send_from_directory, make_response, request, Response
+from flask import Flask, render_template, send_from_directory, make_response, request, Response, redirect
 from flask_socketio import SocketIO, emit, send
 import uuid, gspread, time, random, typing, os
 gc = gspread.service_account()
 from threading import Thread
 sh = gc.open("End Matcher Board Counter")
 
-# ser = serial.Serial('/dev/ttyUSB0', 9600, bytesize=serial.SEVENBITS, timeout=None, parity=serial.PARITY_EVEN, rtscts=1, dsrdtr=1)
+ser = serial.Serial('/dev/ttyUSB0', 9600, bytesize=serial.SEVENBITS, timeout=None, parity=serial.PARITY_EVEN, rtscts=1, dsrdtr=1)
 rounding_accuracy = 0.25
 board_length_offset = 0
 
@@ -20,33 +19,38 @@ def get_job_stats():
 
 def generate_mock_data(n: int):
   for _ in range(n):
+    print(n)
     time.sleep(2)
     id = uuid.uuid4()
     length = random.randint(5, 100)
-    sh.values_append('Sheet2!A1', params={'valueInputOption': 'RAW'}, body={ 'values': [[str(id), length, 'A']]})
+    sh.get_worksheet_by_id(1111478912).append_row(values=[str(id), length, 'A'], table_range='A1')
+    #sh.values_append('Boards!A1', params={'valueInputOption': 'RAW'}, body={ 'values': [[str(id), length, 'A']]})
     total_length, average_length = get_job_stats()
     socketio.send(f"{{\"id\":\"{id}\", \"length\":{length}, \"totalLength\":{total_length[0][0]}, \"averageLength\":{average_length[0][0]}}}")
   return
 
 def process_serial():
-  generate_mock_data(120)
-  # board_index = -1
-  # while True:
-  #   a = ser.read_until(expected=b'\x03')
-  #   packet_start = a.find(b'\x02')
-  #   hex_string = a[packet_start + 1:-1].decode('utf-8')
-  #   hex_flipped = "".join(reversed([hex_string[i:i+2] for i in range(0, len(hex_string), 2)]))
-  #   if is_board_packet(hex_flipped):
-  #     board_num = int(hex_flipped[-8:], 16)
-  #     board_len = int(hex_flipped[:8], 16)
-  #     if board_index == -1 or board_num != board_index:
-  #       board_index = board_num
-  #       print('board num', int(hex_flipped[-8:], 16))
-  #       print('board len', int(hex_flipped[:8], 16)/100)
-  #       length = board_len/100
-  #       id = uuid.uuid4()
-  #       sh.values_append('Sheet2!A1', params={'valueInputOption': 'RAW'}, body={ 'values': [[str(id), length]]})
-  #       socketio.send(f"{{\"id\":\"{id}\", \"length\":{length}}}")
+  #generate_mock_data(120)
+  board_index = -1
+  while True:
+    a = ser.read_until(expected=b'\x03')
+    packet_start = a.find(b'\x02')
+    hex_string = a[packet_start + 1:-1].decode('utf-8')
+    hex_flipped = "".join(reversed([hex_string[i:i+2] for i in range(0, len(hex_string), 2)]))
+    if is_board_packet(hex_flipped):
+      board_num = int(hex_flipped[-8:], 16)
+      board_len = int(hex_flipped[:8], 16)
+      if board_index == -1 or board_num != board_index:
+        board_index = board_num
+        print('board num', int(hex_flipped[-8:], 16))
+        print('board len', int(hex_flipped[:8], 16)/100)
+        #length = board_len/100 - board_length_offset
+        length = round( (board_len/100 - board_length_offset)*(1.0/rounding_accuracy))/(1.0/rounding_accuracy)
+        id = uuid.uuid4()
+        sh.get_worksheet_by_id(1111478912).append_row(values=[str(id), length, 'A'], table_range='A1')
+        #sh.values_append('Boards!A1', params={'valueInputOption': 'RAW'}, body={ 'values': [[str(id), length, 'A']]})
+        total_length, average_length = get_job_stats()
+        socketio.send(f"{{\"id\":\"{id}\", \"length\":{length}, \"totalLength\":{total_length[0][0]}, \"averageLength\":{average_length[0][0]}}}")
 
 def archive_handler(id: str) -> bool:
   try:
@@ -77,12 +81,12 @@ def handle_remove(id: str) -> bool:
 serial_reader_t = Thread(target=process_serial)
 
 def main():
-  serial_reader_t.start()
-  socketio.run(app, host="0.0.0.0")
+  #socketio.run(app, host="0.0.0.0")
   pass
 
 app = Flask(__name__, static_url_path='')
-app.config['SECRET_KEY'] = 'secret!'
+app.config['SECRET_KEY'] = '29b9105e2bbe005a75c553f5509c3e667b64b374f8591e43576ef66b52d841ba'
+serial_reader_t.start()
 socketio = SocketIO(app)
 
 @app.route('/static/<path:path>')
@@ -95,8 +99,8 @@ def settings():
   if request.method == 'GET':
     return render_template('settings.html', rounding_accuracy=rounding_accuracy, length_offset=board_length_offset)
   if request.method == 'POST':
-    rounding_accuracy = request.form['acc']
-    board_length_offset = request.form['offset']
+    rounding_accuracy = float(request.form['acc'])
+    board_length_offset = float(request.form['offset'])
     return redirect('/')
 
 @app.route('/')
@@ -126,6 +130,3 @@ def shutdown():
 @socketio.on('message')
 def handle_message(data):
     print('received message: ' + data)
-
-if __name__ == '__main__':
-  main()
