@@ -1,15 +1,28 @@
-import { Request, Response } from "express";
-import { roundingAccuracy, boardLengthOffset } from "../config/settings";
+import { Request, Response } from 'express';
+import * as storage from 'node-persist';
 
 export class SettingsController {
-  getSettings(req: Request, res: Response): void {
-    res.json({ roundingAccuracy, boardLengthOffset });
+  private readonly STORAGE_KEY = 'settings';
+
+  constructor() {
+    storage.init();
   }
 
-  updateSettings(req: Request, res: Response): void {
+  async getSettings(req: Request, res: Response): Promise<void> {
+    const settings = await storage.getItem(this.STORAGE_KEY) || {
+      roundingAccuracy: 0.25,
+      boardLengthOffset: 0,
+    };
+    res.json(settings);
+  }
+
+  async updateSettings(req: Request, res: Response): Promise<void> {
     const { acc, offset } = req.body;
-    roundingAccuracy = Number(acc);
-    boardLengthOffset = Number(offset);
+    const settings = {
+      roundingAccuracy: Number(acc),
+      boardLengthOffset: Number(offset),
+    };
+    await storage.setItem(this.STORAGE_KEY, settings);
     res.sendStatus(200);
   }
 }
