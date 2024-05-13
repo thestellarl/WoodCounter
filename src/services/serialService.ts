@@ -4,24 +4,24 @@ import { getSettings } from "../config/settings";
 import { Board } from "../models/board";
 
 export class SerialService {
-  private port: SerialPort;
+  // private port: SerialPort;
 
   constructor() {
-    this.port = new SerialPort({
-      path: "/dev/ttyUSB0",
-      baudRate: 9600,
-      dataBits: 7,
-      stopBits: 1,
-      parity: "even",
-      rtscts: true,
-    });
+    // this.port = new SerialPort({
+    //   path: "/dev/ttyUSB0",
+    //   baudRate: 9600,
+    //   dataBits: 7,
+    //   stopBits: 1,
+    //   parity: "even",
+    //   rtscts: true,
+    // });
     console.log("SerialService initialized");
   }
 
   onBoard(callback: (board: Board) => Promise<void>): void {
-    this.port.on("data", (buffer) =>
-      this.processSerialData(buffer).then(callback).catch(console.log)
-    );
+    // this.port.on("data", (buffer) =>
+    //   this.processSerialData(buffer).then(callback).catch(console.log)
+    // );
   }
 
   generateUniqueId(): string {

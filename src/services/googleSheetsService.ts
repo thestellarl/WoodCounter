@@ -1,24 +1,76 @@
 import { Board } from "../models/board";
 import { authenticate } from "@google-cloud/local-auth";
+import { Request } from "express";
 import { google } from "googleapis";
+import type OAuth2Client from "googleapis";
+
+function requireAuth(
+  target: any,
+  propertyKey: string,
+  descriptor: PropertyDescriptor
+) {
+  const originalMethod = descriptor.value;
+
+  descriptor.value = function (...args: any[]) {
+    if (!target.isAuthenticated()) {
+      throw new Error("Authentication required.");
+    }
+
+    return originalMethod.apply(this, args);
+  };
+
+  return descriptor;
+}
 
 export class GoogleSheetsService {
   doc: any = null;
+  authClient: null | OAuth2Client.Common.OAuth2Client = null;
   constructor(private spreadsheetId: string) {
     this.authenticate();
     console.log("GoogleSheetsService initialized");
   }
 
-  async authenticate(): Promise<void> {
-    const auth = await authenticate({
-      keyfilePath: "./google-credentials.json",
-      scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+  isAuthenticated = (): boolean => {
+    // Check if the application has the users access tokens stored
+    // return true if the user is authenticated, false otherwise
+    return false;
+  };
+
+  authenticate(): string {
+    const oauth2Client = new google.auth.OAuth2(
+      process.env.GOOGLE_CLIENT_ID,
+      process.env.GOOGLE_CLIENT_SECRET,
+      "http://localhost:3000/oauth2callback" // Redirect URI
+    );
+
+    const authUrl = oauth2Client.generateAuthUrl({
+      access_type: "offline",
+      scope: ["https://www.googleapis.com/auth/spreadsheets"],
     });
-    const sheets = google.sheets({ version: "v4", auth });
-    this.doc = await sheets.spreadsheets.get({
+    return authUrl;
+  }
+
+  authCallback = async (code: string) => {
+    this.authClient = new google.auth.OAuth2(
+      process.env.GOOGLE_CLIENT_ID,
+      process.env.GOOGLE_CLIENT_SECRET,
+      "http://localhost:3000/oauth2callback" // Redirect URI
+    );
+
+    const { tokens } = await this.authClient.getToken(code);
+    this.authClient.setCredentials(tokens);
+    // Store the tokens securely for future use
+    // ...
+    return Promise.resolve();
+  };
+
+  listSheets = async () => {
+    const sheets = google.sheets({ version: "v4", auth: this.authClient });
+    const res = await sheets.spreadsheets.get({
       spreadsheetId: this.spreadsheetId,
     });
-  }
+    console.log(res.data.sheets);
+  };
 
   async getJobStats(): Promise<[number, number]> {
     const sheet = this.doc.sheetsByIndex[0];
