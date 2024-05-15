@@ -2,7 +2,7 @@ import { Board } from "../models/board";
 import { authenticate } from "@google-cloud/local-auth";
 import { Request } from "express";
 import { google } from "googleapis";
-import type OAuth2Client from "googleapis";
+import OAuth2Client from "googleapis";
 
 function requireAuth(
   target: any,
@@ -37,13 +37,13 @@ export class GoogleSheetsService {
   };
 
   authenticate(): string {
-    const oauth2Client = new google.auth.OAuth2(
+    this.authClient = new google.auth.OAuth2(
       process.env.GOOGLE_CLIENT_ID,
       process.env.GOOGLE_CLIENT_SECRET,
       "http://localhost:3000/oauth2callback" // Redirect URI
     );
 
-    const authUrl = oauth2Client.generateAuthUrl({
+    const authUrl = this.authClient.generateAuthUrl({
       access_type: "offline",
       scope: ["https://www.googleapis.com/auth/spreadsheets"],
     });
@@ -51,13 +51,7 @@ export class GoogleSheetsService {
   }
 
   authCallback = async (code: string) => {
-    this.authClient = new google.auth.OAuth2(
-      process.env.GOOGLE_CLIENT_ID,
-      process.env.GOOGLE_CLIENT_SECRET,
-      "http://localhost:3000/oauth2callback" // Redirect URI
-    );
-
-    const { tokens } = await this.authClient.getToken(code);
+    if (this.autClient) const { tokens } = await this.authClient.getToken(code);
     this.authClient.setCredentials(tokens);
     // Store the tokens securely for future use
     // ...
