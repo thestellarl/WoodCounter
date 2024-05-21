@@ -31,9 +31,7 @@ export class GoogleSheetsService {
   }
 
   isAuthenticated = (): boolean => {
-    // Check if the application has the users access tokens stored
-    // return true if the user is authenticated, false otherwise
-    return false;
+    return this.authClient?.apiKey !== undefined;
   };
 
   authenticate(): string {
@@ -51,7 +49,8 @@ export class GoogleSheetsService {
   }
 
   authCallback = async (code: string) => {
-    if (this.autClient) const { tokens } = await this.authClient.getToken(code);
+    if (this.authClient === null) throw new Error("Not authenticated");
+    const { tokens } = await this.authClient.getToken(code);
     this.authClient.setCredentials(tokens);
     // Store the tokens securely for future use
     // ...
@@ -59,6 +58,7 @@ export class GoogleSheetsService {
   };
 
   listSheets = async () => {
+    if (this.authClient === null) throw new Error("Not authenticated");
     const sheets = google.sheets({ version: "v4", auth: this.authClient });
     const res = await sheets.spreadsheets.get({
       spreadsheetId: this.spreadsheetId,
