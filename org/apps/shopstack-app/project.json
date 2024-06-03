@@ -1,0 +1,15 @@
+{
+  "name": "shopstack-app",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/shopstack-app/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/web:webpack",
+      "options": {
+        "postcssConfig": "apps/shopstack-app/postcss.config.js"
+      }
+    }
+  }
+}
