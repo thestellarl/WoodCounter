@@ -10,11 +10,11 @@ interface SettingsProps {
   initialFormData: SettingsFormData;
 }
 
-const Settings = ({ initialFormData }: SettingsProps) => {
-  const formData = useLoaderData() as SettingsFormData;
+const Settings = () => {
+  const initialSettings = useLoaderData() as SettingsFormData;
 
   const [formData, setFormData] =
-    React.useState<SettingsFormData>(initialFormData);
+    React.useState<SettingsFormData>(initialSettings);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;

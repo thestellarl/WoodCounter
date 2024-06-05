@@ -1,7 +1,7 @@
 window.onload = () => {
   let boards = [];
   const boardMap = {};
-  var audio = new Audio('beep.mp3');
+  var audio = new Audio("beep.mp3");
   var socket = io();
 
   const totalLengthHeader = document.getElementById("total-length");
@@ -100,6 +100,10 @@ window.onload = () => {
   const removeBoardFromDOM = () => {
     queueWrapper.firstChild.remove();
   };
+
+  setInterval(() => {
+    addBoardHandler({ id: 0, length: 50 });
+  }, 1000);
 
   socket.on("message", (board) => {
     let boardData = JSON.parse(board);

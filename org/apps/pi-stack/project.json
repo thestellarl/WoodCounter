@@ -1,22 +1,35 @@
 {
-  "name": "shopstack",
-  "$schema": "../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "pi-stack/src",
+  "name": "pi-stack",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/pi-stack/src",
   "projectType": "application",
   "tags": [],
   "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/pi-stack",
+        "main": "apps/pi-stack/src/server.ts",
+        "tsConfig": "apps/pi-stack/tsconfig.app.json"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
     "serve": {
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "shopstack:build"
+        "buildTarget": "pi-stack:build"
       },
       "configurations": {
         "development": {
-          "buildTarget": "shopstack:build:development"
+          "buildTarget": "pi-stack:build:development"
         },
         "production": {
-          "buildTarget": "shopstack:build:production"
+          "buildTarget": "pi-stack:build:production"
         }
       }
     }

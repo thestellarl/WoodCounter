@@ -10,11 +10,9 @@ const router = createBrowserRouter([
   {
     path: '/settings',
     loader: async () => {
-      return { default: Settings };
+      return { rounding_accuracy: 0, length_offset: 0 };
     },
-    element: (
-      <Settings initialFormData={{ rounding_accuracy: 0, length_offset: 0 }} />
-    ),
+    element: <Settings />,
   },
 ]);
 
