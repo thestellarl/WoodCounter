@@ -34,7 +34,11 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": ["apps/shopstack-e2e/**/*"]
+      "exclude": [
+        "apps/shopstack-e2e/**/*",
+        "apps/shopstack-server-e2e/**/*",
+        "apps/shopstack-server-e2e/**/*"
+      ]
     },
     {
       "plugin": "@nx/vite/plugin",
@@ -62,6 +66,13 @@
         "style": "tailwind",
         "linter": "eslint"
       }
+    }
+  },
+  "targetDefaults": {
+    "@nx/esbuild:esbuild": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   }
 }

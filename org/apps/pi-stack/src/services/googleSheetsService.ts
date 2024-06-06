@@ -4,37 +4,19 @@ import { Request } from 'express';
 import { google } from 'googleapis';
 import OAuth2Client from 'googleapis';
 
-function requireAuth(
-  target: any,
-  propertyKey: string,
-  descriptor: PropertyDescriptor
-) {
-  const originalMethod = descriptor.value;
-
-  descriptor.value = function (...args: any[]) {
-    if (!target.isAuthenticated()) {
-      throw new Error('Authentication required.');
-    }
-
-    return originalMethod.apply(this, args);
-  };
-
-  return descriptor;
-}
-
 export class GoogleSheetsService {
   doc: any = null;
   authClient: null | OAuth2Client.Common.OAuth2Client = null;
   constructor(private spreadsheetId: string) {
-    this.authenticate();
+    // this.authenticate();
     console.log('GoogleSheetsService initialized');
   }
 
-  isAuthenticated = (): boolean => {
-    // Check if the application has the users access tokens stored
-    // return true if the user is authenticated, false otherwise
-    return false;
-  };
+  // isAuthenticated = (): boolean => {
+  //   // Check if the application has the users access tokens stored
+  //   // return true if the user is authenticated, false otherwise
+  //   return false;
+  // };
 
   authenticate(): string {
     this.authClient = new google.auth.OAuth2(

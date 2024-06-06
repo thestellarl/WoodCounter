@@ -7,8 +7,7 @@ import settingsRoutes from './routes/settingsRoutes';
 import { exec } from 'child_process';
 import { SerialService } from './services/serialService';
 import { GoogleSheetsService } from './services/googleSheetsService';
-import https from 'https';
-import fs from 'fs';
+import { environment } from '@my-org/environments';
 
 const app = express();
 // const privateKey = fs.readFileSync(
@@ -33,17 +32,10 @@ const sheetService = new GoogleSheetsService('');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const authMiddleware = (req: Request, res: Response, next: Function) => {
-  if (!sheetService.isAuthenticated()) {
-    return res.redirect('/login');
-  } else {
-    next();
-  }
-};
-
 app.get('/login', (req: Request, res: Response) => {
   res.redirect(sheetService.authenticate());
 });
+
 app.get('/oauth2callback', async (req, res) => {
   const { code } = req.query;
   console.log(code);
