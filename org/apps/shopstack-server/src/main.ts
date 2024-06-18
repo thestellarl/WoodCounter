@@ -14,25 +14,13 @@ const server = createServer(app);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const authMiddleware = (req: Request, res: Response, next: Function) => {
-  if (!sheetService.isAuthenticated()) {
-    return res.redirect(`${environment.server}/auth`);
-  } else {
-    next();
-  }
-};
-
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
-
-app.get('/api', (req, res) => {
-  res.send({ message: 'Welcome to shopstack-server!' });
-});
-
 const authClient = new GoogleAPIService();
-app.post('/auth', (req, res) => authClient.authenticate.bind(authClient));
+app.get('/auth', (req, res) => {
+  res.redirect(authClient.authenticate(req.query.callbackUrl as string));
+});
 
 const port = process.env.PORT || 3333;
-const server = app.listen(port, () => {
+
+app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
 });
-server.on('error', console.error);

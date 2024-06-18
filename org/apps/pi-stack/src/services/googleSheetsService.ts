@@ -1,36 +1,21 @@
 import { Board } from '../models/board';
-import { authenticate } from '@google-cloud/local-auth';
-import { Request } from 'express';
+// import { authenticate } from '@google-cloud/local-auth';
+// import { Request } from 'express';
 import { google } from 'googleapis';
 import OAuth2Client from 'googleapis';
 
-export class GoogleSheetsService {
+export class GoogleService {
   doc: any = null;
   authClient: null | OAuth2Client.Common.OAuth2Client = null;
-  constructor(private spreadsheetId: string) {
-    // this.authenticate();
+  constructor() {
     console.log('GoogleSheetsService initialized');
   }
 
-  // isAuthenticated = (): boolean => {
-  //   // Check if the application has the users access tokens stored
-  //   // return true if the user is authenticated, false otherwise
-  //   return false;
-  // };
-
-  authenticate(): string {
-    this.authClient = new google.auth.OAuth2(
-      process.env.GOOGLE_CLIENT_ID,
-      process.env.GOOGLE_CLIENT_SECRET,
-      'http://localhost:3000/oauth2callback' // Redirect URI
-    );
-
-    const authUrl = this.authClient.generateAuthUrl({
-      access_type: 'offline',
-      scope: ['https://www.googleapis.com/auth/spreadsheets'],
-    });
-    return authUrl;
-  }
+  isAuthenticated = (): boolean => {
+    // Check if the application has the users access tokens stored
+    // return true if the user is authenticated, false otherwise
+    return false;
+  };
 
   authCallback = async (code: string) => {
     if (this.authClient) {
@@ -43,7 +28,7 @@ export class GoogleSheetsService {
   listSheets = async () => {
     const sheets = google.sheets({ version: 'v4', auth: this.authClient });
     const res = await sheets.spreadsheets.get({
-      spreadsheetId: this.spreadsheetId,
+      // spreadsheetId: this.spreadsheetId,
     });
     console.log(res.data.sheets);
   };

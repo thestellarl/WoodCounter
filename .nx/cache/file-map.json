@@ -1,0 +1,490 @@
+{
+  "version": "6.0",
+  "nxVersion": "19.0.4",
+  "deps": {
+    "@google-cloud/local-auth": "2.1.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "googleapis": "^105.0.0",
+    "node-persist": "^4.0.1",
+    "serialport": "^12.0.0",
+    "socket.io": "^4.7.5",
+    "uuid": "^9.0.1",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.12.8",
+    "@types/node-persist": "^3.1.8",
+    "@types/uuid": "^9.0.8",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.4.5"
+  },
+  "pathMappings": {},
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "projectFileMap": {
+      "shopstack-e2e": [
+        {
+          "file": "org/apps/shopstack-e2e/.eslintrc.json",
+          "hash": "14921153827776288937"
+        },
+        {
+          "file": "org/apps/shopstack-e2e/jest.config.ts",
+          "hash": "8995496676934526122"
+        },
+        {
+          "file": "org/apps/shopstack-e2e/project.json",
+          "hash": "9752545626612625952"
+        },
+        {
+          "file": "org/apps/shopstack-e2e/src/shopstack/shopstack.spec.ts",
+          "hash": "3026045886657059088"
+        },
+        {
+          "file": "org/apps/shopstack-e2e/src/support/global-setup.ts",
+          "hash": "18221119270488052961"
+        },
+        {
+          "file": "org/apps/shopstack-e2e/src/support/global-teardown.ts",
+          "hash": "17927034305001160425"
+        },
+        {
+          "file": "org/apps/shopstack-e2e/src/support/test-setup.ts",
+          "hash": "4165311015569872896"
+        },
+        {
+          "file": "org/apps/shopstack-e2e/tsconfig.json",
+          "hash": "1422418700492434985"
+        },
+        {
+          "file": "org/apps/shopstack-e2e/tsconfig.spec.json",
+          "hash": "5623794208198348967"
+        }
+      ],
+      "pi-stack": [
+        {
+          "file": "org/apps/pi-stack/.eslintrc.json",
+          "hash": "14921153827776288937"
+        },
+        {
+          "file": "org/apps/pi-stack/jest.config.ts",
+          "hash": "1697650352723104937"
+        },
+        {
+          "file": "org/apps/pi-stack/project.json",
+          "hash": "8587740954431521061"
+        },
+        {
+          "file": "org/apps/pi-stack/src/app.ts",
+          "hash": "11799161470757094830"
+        },
+        {
+          "file": "org/apps/pi-stack/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "org/apps/pi-stack/src/config/settings.ts",
+          "hash": "18222583968259134942"
+        },
+        {
+          "file": "org/apps/pi-stack/src/controllers/boardController.ts",
+          "hash": "16980552512413271961"
+        },
+        {
+          "file": "org/apps/pi-stack/src/controllers/settingsController.ts",
+          "hash": "17176070831837247891"
+        },
+        {
+          "file": "org/apps/pi-stack/src/main.ts",
+          "hash": "11401696563369494453"
+        },
+        {
+          "file": "org/apps/pi-stack/src/models/board.ts",
+          "hash": "9450197266324248289"
+        },
+        {
+          "file": "org/apps/pi-stack/src/routes/boardRoutes.ts",
+          "hash": "4746109875821977745"
+        },
+        {
+          "file": "org/apps/pi-stack/src/routes/settingsRoutes.ts",
+          "hash": "12980729551518225870"
+        },
+        {
+          "file": "org/apps/pi-stack/src/server.ts",
+          "hash": "12851912334435126939"
+        },
+        {
+          "file": "org/apps/pi-stack/src/services/boardService.ts",
+          "hash": "5010905151551516038"
+        },
+        {
+          "file": "org/apps/pi-stack/src/services/googleSheetsService.ts",
+          "hash": "294962618270607567"
+        },
+        {
+          "file": "org/apps/pi-stack/src/services/serialService.ts",
+          "hash": "14604304213377197068"
+        },
+        {
+          "file": "org/apps/pi-stack/tsconfig.app.json",
+          "hash": "9578266846203006031"
+        },
+        {
+          "file": "org/apps/pi-stack/tsconfig.json",
+          "hash": "7462419380158041776"
+        },
+        {
+          "file": "org/apps/pi-stack/tsconfig.spec.json",
+          "hash": "3357334332805928792"
+        },
+        {
+          "file": "org/apps/pi-stack/webpack.config.js",
+          "hash": "2591589697171740807"
+        }
+      ],
+      "shopstack-server": [
+        {
+          "file": "org/apps/shopstack-server/.eslintrc.json",
+          "hash": "14921153827776288937"
+        },
+        {
+          "file": "org/apps/shopstack-server/jest.config.ts",
+          "hash": "2753848354257969397"
+        },
+        {
+          "file": "org/apps/shopstack-server/project.json",
+          "hash": "1390248438211466137"
+        },
+        {
+          "file": "org/apps/shopstack-server/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "org/apps/shopstack-server/src/main.ts",
+          "hash": "18380907928182222239"
+        },
+        {
+          "file": "org/apps/shopstack-server/src/services/auth/index.ts",
+          "hash": "3664827298682018078"
+        },
+        {
+          "file": "org/apps/shopstack-server/tsconfig.app.json",
+          "hash": "1238813864883096580"
+        },
+        {
+          "file": "org/apps/shopstack-server/tsconfig.json",
+          "hash": "7462419380158041776"
+        },
+        {
+          "file": "org/apps/shopstack-server/tsconfig.spec.json",
+          "hash": "11194536110028348959"
+        },
+        {
+          "file": "org/apps/shopstack-server/webpack.config.js",
+          "hash": "8114216061439779128"
+        }
+      ],
+      "shopstack-app": [
+        {
+          "file": "org/apps/shopstack-app/.eslintrc.json",
+          "hash": "14830867113928387670"
+        },
+        {
+          "file": "org/apps/shopstack-app/index.html",
+          "hash": "12135699960437557993"
+        },
+        {
+          "file": "org/apps/shopstack-app/jest.config.ts",
+          "hash": "4232569406420321833"
+        },
+        {
+          "file": "org/apps/shopstack-app/postcss.config.js",
+          "hash": "16750483254333733706"
+        },
+        {
+          "file": "org/apps/shopstack-app/project.json",
+          "hash": "4068969265700726632"
+        },
+        {
+          "file": "org/apps/shopstack-app/public/favicon.ico",
+          "hash": "9303420814833116677"
+        },
+        {
+          "file": "org/apps/shopstack-app/public/main.css",
+          "hash": "3730915273054111149"
+        },
+        {
+          "file": "org/apps/shopstack-app/src/Pages/Dashboard/index.tsx",
+          "hash": "17561669117901888306"
+        },
+        {
+          "file": "org/apps/shopstack-app/src/Pages/Settings/index.tsx",
+          "hash": "18340718456747265523"
+        },
+        {
+          "file": "org/apps/shopstack-app/src/app/app.spec.tsx",
+          "hash": "460860208390946953"
+        },
+        {
+          "file": "org/apps/shopstack-app/src/app/app.tsx",
+          "hash": "5547215739973343439"
+        },
+        {
+          "file": "org/apps/shopstack-app/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "org/apps/shopstack-app/src/components/BoardQueue/Board.tsx",
+          "hash": "10228701446177546477"
+        },
+        {
+          "file": "org/apps/shopstack-app/src/components/BoardQueue/index.tsx",
+          "hash": "9901287144033330168"
+        },
+        {
+          "file": "org/apps/shopstack-app/src/components/Footer/index.tsx",
+          "hash": "17787163444868777495"
+        },
+        {
+          "file": "org/apps/shopstack-app/src/components/Header/index.tsx",
+          "hash": "2777545947001212772"
+        },
+        {
+          "file": "org/apps/shopstack-app/src/main.tsx",
+          "hash": "14998441831139929404"
+        },
+        {
+          "file": "org/apps/shopstack-app/src/styles.css",
+          "hash": "4343596525642739496"
+        },
+        {
+          "file": "org/apps/shopstack-app/src/styles/tailwind.css",
+          "hash": "755636057583361403"
+        },
+        {
+          "file": "org/apps/shopstack-app/tailwind.config.js",
+          "hash": "16449474197544728623"
+        },
+        {
+          "file": "org/apps/shopstack-app/tsconfig.app.json",
+          "hash": "9014817974750934731"
+        },
+        {
+          "file": "org/apps/shopstack-app/tsconfig.json",
+          "hash": "7245696343842452685"
+        },
+        {
+          "file": "org/apps/shopstack-app/tsconfig.spec.json",
+          "hash": "6598293385245729886"
+        },
+        {
+          "file": "org/apps/shopstack-app/vite.config.ts",
+          "hash": "5240896528899068189"
+        }
+      ],
+      "shopstack-server-e2e": [
+        {
+          "file": "org/apps/shopstack-server-e2e/.eslintrc.json",
+          "hash": "14921153827776288937"
+        },
+        {
+          "file": "org/apps/shopstack-server-e2e/jest.config.ts",
+          "hash": "2344018848650569390"
+        },
+        {
+          "file": "org/apps/shopstack-server-e2e/project.json",
+          "hash": "17944700474054474869"
+        },
+        {
+          "file": "org/apps/shopstack-server-e2e/src/shopstack-server/shopstack-server.spec.ts",
+          "hash": "3026045886657059088"
+        },
+        {
+          "file": "org/apps/shopstack-server-e2e/src/support/global-setup.ts",
+          "hash": "18221119270488052961"
+        },
+        {
+          "file": "org/apps/shopstack-server-e2e/src/support/global-teardown.ts",
+          "hash": "17927034305001160425"
+        },
+        {
+          "file": "org/apps/shopstack-server-e2e/src/support/test-setup.ts",
+          "hash": "4165311015569872896"
+        },
+        {
+          "file": "org/apps/shopstack-server-e2e/tsconfig.json",
+          "hash": "1422418700492434985"
+        },
+        {
+          "file": "org/apps/shopstack-server-e2e/tsconfig.spec.json",
+          "hash": "5623794208198348967"
+        }
+      ]
+    },
+    "nonProjectFiles": [
+      {
+        "file": ".gitignore",
+        "hash": "4768113130674622968"
+      },
+      {
+        "file": "README.md",
+        "hash": "8087592928043982189"
+      },
+      {
+        "file": "gunicorn_config.py",
+        "hash": "6782025258874968126"
+      },
+      {
+        "file": "main.py",
+        "hash": "3572073587322172927"
+      },
+      {
+        "file": "org/.editorconfig",
+        "hash": "11532813898455409296"
+      },
+      {
+        "file": "org/.eslintignore",
+        "hash": "13404745306227114823"
+      },
+      {
+        "file": "org/.eslintrc.json",
+        "hash": "4566917484430375526"
+      },
+      {
+        "file": "org/.gitignore",
+        "hash": "8006173599923703420"
+      },
+      {
+        "file": "org/.prettierignore",
+        "hash": "2687824826588932174"
+      },
+      {
+        "file": "org/.prettierrc",
+        "hash": "6820402234827505055"
+      },
+      {
+        "file": "org/.vscode/extensions.json",
+        "hash": "60901680939730831"
+      },
+      {
+        "file": "org/README.md",
+        "hash": "6505951220796597500"
+      },
+      {
+        "file": "org/environments/environment.prod.ts",
+        "hash": "12409407374855912637"
+      },
+      {
+        "file": "org/environments/environment.ts",
+        "hash": "9610379590654482396"
+      },
+      {
+        "file": "org/jest.config.ts",
+        "hash": "7544409015863045561"
+      },
+      {
+        "file": "org/jest.preset.js",
+        "hash": "7473220183190921152"
+      },
+      {
+        "file": "org/nx.json",
+        "hash": "12720077135476125654"
+      },
+      {
+        "file": "org/package-lock.json",
+        "hash": "5343649032186419230"
+      },
+      {
+        "file": "org/package.json",
+        "hash": "13540276900841598895"
+      },
+      {
+        "file": "org/postcss.config.js",
+        "hash": "16750483254333733706"
+      },
+      {
+        "file": "org/tailwind.config.js",
+        "hash": "8449804768954528935"
+      },
+      {
+        "file": "org/tsconfig.base.json",
+        "hash": "14278673798315758764"
+      },
+      {
+        "file": "package.json",
+        "hash": "1891557960175002577"
+      },
+      {
+        "file": "src/app.ts",
+        "hash": "6445561075532994411"
+      },
+      {
+        "file": "src/config/settings.ts",
+        "hash": "2550252249750445273"
+      },
+      {
+        "file": "src/controllers/boardController.ts",
+        "hash": "8575052311496351987"
+      },
+      {
+        "file": "src/controllers/settingsController.ts",
+        "hash": "3596864333799781018"
+      },
+      {
+        "file": "src/models/board.ts",
+        "hash": "6233778172218392069"
+      },
+      {
+        "file": "src/routes/boardRoutes.ts",
+        "hash": "16945219836957939082"
+      },
+      {
+        "file": "src/routes/settingsRoutes.ts",
+        "hash": "1159357463749449408"
+      },
+      {
+        "file": "src/server.ts",
+        "hash": "13818297554000366306"
+      },
+      {
+        "file": "src/services/boardService.ts",
+        "hash": "5010905151551516038"
+      },
+      {
+        "file": "src/services/googleSheetsService.ts",
+        "hash": "14334343404288935896"
+      },
+      {
+        "file": "src/services/serialService.ts",
+        "hash": "7479464805698962018"
+      },
+      {
+        "file": "static/beep.mp3",
+        "hash": "8138716395484081310"
+      },
+      {
+        "file": "static/index.js",
+        "hash": "15708307637090368988"
+      },
+      {
+        "file": "static/main.css",
+        "hash": "3730915273054111149"
+      },
+      {
+        "file": "static/settings.js",
+        "hash": "12290767640775295999"
+      },
+      {
+        "file": "templates/index.html",
+        "hash": "10036694406929418364"
+      },
+      {
+        "file": "templates/settings.html",
+        "hash": "8676078134728329233"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "10357064325928201598"
+      }
+    ]
+  }
+}

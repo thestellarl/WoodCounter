@@ -1,0 +1,51 @@
+[NX Daemon Server] - 2024-06-07T07:55:57.530Z - Started listening on: \\.\pipe\nx\C:\Users\Lucas\AppData\Local\Temp\51841e69c74fb2710b81\d.sock
+[NX Daemon Server] - 2024-06-07T07:55:57.533Z - [WATCHER]: Subscribed to changes within: e:\REPOS\WoodCounter (native)
+[NX Daemon Server] - 2024-06-07T07:55:57.539Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-06-07T07:55:57.541Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2024-06-07T07:55:57.541Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-06-07T07:55:57.542Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2024-06-07T07:55:57.553Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-06-07T07:55:57.553Z - [REQUEST]: 
+[NX Daemon Server] - 2024-06-07T07:55:57.553Z - [REQUEST]: 
+
+ NX   Failed to parse pnpm lockfile
+
+Please open an issue at `https://github.com/nrwl/nx/issues/new?template=1-bug.yml` and provide a reproduction.
+
+Original error: Could not find ".modules.yaml" at "e:\REPOS\WoodCounter/node_modules/.modules.yaml"
+
+
+Error: Could not find ".modules.yaml" at "e:\REPOS\WoodCounter/node_modules/.modules.yaml"
+    at loadPnpmHoistedDepsDefinition (e:\REPOS\WoodCounter\node_modules\nx\src\plugins\js\lock-file\utils\pnpm-normalizer.js:23:15)
+    at getNodes (e:\REPOS\WoodCounter\node_modules\nx\src\plugins\js\lock-file\pnpm-parser.js:157:77)
+    at getPnpmLockfileNodes (e:\REPOS\WoodCounter\node_modules\nx\src\plugins\js\lock-file\pnpm-parser.js:27:12)
+    at getLockFileNodes (e:\REPOS\WoodCounter\node_modules\nx\src\plugins\js\lock-file\lock-file.js:36:59)
+    at exports.createNodes (e:\REPOS\WoodCounter\node_modules\nx\src\plugins\js\index.js:42:64)
+    at e:\REPOS\WoodCounter\node_modules\nx\src\project-graph\plugins\utils.js:49:54
+    at Array.map (<anonymous>)
+    at runCreateNodesInParallel (e:\REPOS\WoodCounter\node_modules\nx\src\project-graph\plugins\utils.js:47:34)
+    at LoadedNxPlugin.createNodes (e:\REPOS\WoodCounter\node_modules\nx\src\project-graph\plugins\internal-api.js:23:74)
+    at createProjectConfigurations (e:\REPOS\WoodCounter\node_modules\nx\src\project-graph\utils\project-configuration-utils.js:253:17)
+
+[NX Daemon Server] - 2024-06-07T07:55:57.600Z - [REQUEST]: Responding to the client with an error. Error when preparing serialized project graph. Failed to process project graph. Run "nx reset" to fix this. Please report the issue if you keep seeing it.
+Failed to process project graph. Run "nx reset" to fix this. Please report the issue if you keep seeing it.
+  The "nx/js/dependencies-and-lockfile" plugin threw an error while creating nodes from pnpm-lock.yaml:
+    Error: Could not find ".modules.yaml" at "e:\REPOS\WoodCounter/node_modules/.modules.yaml"
+        at loadPnpmHoistedDepsDefinition (e:\REPOS\WoodCounter\node_modules\nx\src\plugins\js\lock-file\utils\pnpm-normalizer.js:23:15)
+        at getNodes (e:\REPOS\WoodCounter\node_modules\nx\src\plugins\js\lock-file\pnpm-parser.js:157:77)
+        at getPnpmLockfileNodes (e:\REPOS\WoodCounter\node_modules\nx\src\plugins\js\lock-file\pnpm-parser.js:27:12)
+        at getLockFileNodes (e:\REPOS\WoodCounter\node_modules\nx\src\plugins\js\lock-file\lock-file.js:36:59)
+        at exports.createNodes (e:\REPOS\WoodCounter\node_modules\nx\src\plugins\js\index.js:42:64)
+        at e:\REPOS\WoodCounter\node_modules\nx\src\project-graph\plugins\utils.js:49:54
+        at Array.map (<anonymous>)
+        at runCreateNodesInParallel (e:\REPOS\WoodCounter\node_modules\nx\src\project-graph\plugins\utils.js:47:34)
+        at LoadedNxPlugin.createNodes (e:\REPOS\WoodCounter\node_modules\nx\src\project-graph\plugins\internal-api.js:23:74)
+        at createProjectConfigurations (e:\REPOS\WoodCounter\node_modules\nx\src\project-graph\utils\project-configuration-utils.js:253:17)
+[NX Daemon Server] - 2024-06-07T07:55:57.601Z - Time taken for 'Load Nx Plugin: e:\REPOS\WoodCounter\node_modules\nx\src\plugins\project-json\build-nodes\package-json-next-to-project-json' 9.21369999999996ms
+[NX Daemon Server] - 2024-06-07T07:55:57.602Z - Done responding to the client null
+[NX Daemon Server] - 2024-06-07T07:55:57.602Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 58. Response time: 2.
+[NX Daemon Server] - 2024-06-07T07:55:57.602Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2024-06-07T08:04:54.683Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-06-07T08:04:54.683Z - [WATCHER]: Stopping the watcher for e:\REPOS\WoodCounter (sources)
+[NX Daemon Server] - 2024-06-07T08:04:54.683Z - [WATCHER]: Stopping the watcher for e:\REPOS\WoodCounter (outputs)
+[NX Daemon Server] - 2024-06-07T08:04:54.683Z - Server stopped because: "Lock file changed"

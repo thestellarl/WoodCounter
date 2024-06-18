@@ -8,11 +8,11 @@ class GoogleAPIService {
     return false;
   };
 
-  authenticate = () => {
+  authenticate = (callbackUrl: string) => {
     this.authClient = new google.auth.OAuth2(
       process.env.GOOGLE_CLIENT_ID,
       process.env.GOOGLE_CLIENT_SECRET,
-      'http://localhost:3000/oauth2callback' // Redirect URI
+      callbackUrl
     );
 
     const authUrl = this.authClient.generateAuthUrl({

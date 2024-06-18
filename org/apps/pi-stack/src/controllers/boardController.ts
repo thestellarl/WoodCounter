@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { GoogleSheetsService } from '../services/googleSheetsService';
+import { GoogleService } from '../services/googleSheetsService';
 
 export class BoardController {
-  private sheetsService: GoogleSheetsService;
+  private sheetsService: GoogleService;
 
   constructor() {
-    this.sheetsService = new GoogleSheetsService('');
+    this.sheetsService = new GoogleService();
     console.log('BoardController initialized');
   }
 

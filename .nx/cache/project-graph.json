@@ -1,0 +1,195 @@
+{
+  "nodes": {
+    "shopstack-server-e2e": {
+      "name": "shopstack-server-e2e",
+      "type": "e2e",
+      "data": {
+        "root": "org/apps/shopstack-server-e2e",
+        "name": "shopstack-server-e2e",
+        "$schema": "../../node_modules/nx/schemas/project-schema.json",
+        "projectType": "application",
+        "implicitDependencies": [
+          "shopstack-server"
+        ],
+        "targets": {
+          "e2e": {
+            "executor": "@nx/jest:jest",
+            "outputs": [
+              "{workspaceRoot}/coverage/{e2eProjectRoot}"
+            ],
+            "options": {
+              "jestConfig": "apps/shopstack-server-e2e/jest.config.ts",
+              "passWithNoTests": true
+            },
+            "dependsOn": [
+              "shopstack-server:build"
+            ],
+            "configurations": {}
+          }
+        },
+        "tags": []
+      }
+    },
+    "shopstack-server": {
+      "name": "shopstack-server",
+      "type": "app",
+      "data": {
+        "root": "org/apps/shopstack-server",
+        "name": "shopstack-server",
+        "$schema": "../../node_modules/nx/schemas/project-schema.json",
+        "sourceRoot": "apps/shopstack-server/src",
+        "projectType": "application",
+        "tags": [],
+        "targets": {
+          "serve": {
+            "executor": "@nx/js:node",
+            "defaultConfiguration": "development",
+            "options": {
+              "buildTarget": "shopstack-server:build"
+            },
+            "configurations": {
+              "development": {
+                "buildTarget": "shopstack-server:build:development"
+              },
+              "production": {
+                "buildTarget": "shopstack-server:build:production",
+                "fileReplacements": [
+                  {
+                    "replace": "environments/environment.ts",
+                    "with": "environments/environment.prod.ts"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "implicitDependencies": []
+      }
+    },
+    "shopstack-app": {
+      "name": "shopstack-app",
+      "type": "app",
+      "data": {
+        "root": "org/apps/shopstack-app",
+        "name": "shopstack-app",
+        "$schema": "../../node_modules/nx/schemas/project-schema.json",
+        "sourceRoot": "apps/shopstack-app/src",
+        "projectType": "application",
+        "tags": [],
+        "targets": {
+          "build": {
+            "executor": "@nx/web:webpack",
+            "options": {
+              "postcssConfig": "apps/shopstack-app/postcss.config.js"
+            },
+            "configurations": {}
+          }
+        },
+        "implicitDependencies": []
+      }
+    },
+    "shopstack-e2e": {
+      "name": "shopstack-e2e",
+      "type": "e2e",
+      "data": {
+        "root": "org/apps/shopstack-e2e",
+        "name": "shopstack-e2e",
+        "$schema": "../../node_modules/nx/schemas/project-schema.json",
+        "projectType": "application",
+        "implicitDependencies": [
+          "shopstack-app"
+        ],
+        "targets": {
+          "e2e": {
+            "executor": "@nx/jest:jest",
+            "outputs": [
+              "{workspaceRoot}/coverage/{e2eProjectRoot}"
+            ],
+            "options": {
+              "jestConfig": "apps/shopstack-e2e/jest.config.ts",
+              "passWithNoTests": true
+            },
+            "dependsOn": [
+              "shopstack-app:build"
+            ],
+            "configurations": {}
+          }
+        },
+        "tags": []
+      }
+    },
+    "pi-stack": {
+      "name": "pi-stack",
+      "type": "app",
+      "data": {
+        "root": "org/apps/pi-stack",
+        "name": "pi-stack",
+        "$schema": "../../node_modules/nx/schemas/project-schema.json",
+        "sourceRoot": "apps/pi-stack/src",
+        "projectType": "application",
+        "tags": [],
+        "targets": {
+          "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": [
+              "{options.outputPath}"
+            ],
+            "options": {
+              "outputPath": "dist/apps/pi-stack",
+              "main": "apps/pi-stack/src/server.ts",
+              "tsConfig": "apps/pi-stack/tsconfig.app.json"
+            },
+            "configurations": {
+              "development": {},
+              "production": {
+                "fileReplacements": [
+                  {
+                    "replace": "environments/environment.ts",
+                    "with": "environments/environment.prod.ts"
+                  }
+                ]
+              }
+            }
+          },
+          "serve": {
+            "executor": "@nx/js:node",
+            "defaultConfiguration": "development",
+            "options": {
+              "buildTarget": "pi-stack:build"
+            },
+            "configurations": {
+              "development": {
+                "buildTarget": "pi-stack:build:development"
+              },
+              "production": {
+                "buildTarget": "pi-stack:build:production"
+              }
+            }
+          }
+        },
+        "implicitDependencies": []
+      }
+    }
+  },
+  "externalNodes": {},
+  "dependencies": {
+    "shopstack-server-e2e": [
+      {
+        "source": "shopstack-server-e2e",
+        "target": "shopstack-server",
+        "type": "implicit"
+      }
+    ],
+    "shopstack-server": [],
+    "shopstack-app": [],
+    "shopstack-e2e": [
+      {
+        "source": "shopstack-e2e",
+        "target": "shopstack-app",
+        "type": "implicit"
+      }
+    ],
+    "pi-stack": []
+  },
+  "version": "6.0"
+}
