@@ -1,0 +1,9 @@
+{
+  "name": "shopstack-server",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/shopstack-server",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project shopstack-server --web",
+  "targets": {}
+}
