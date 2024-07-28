@@ -9,10 +9,8 @@
     "build": {
       "executor": "@nx/next:build",
       "options": {
-        "root": "apps/shopstack-server",
-        "outputPath": "dist/apps/shopstack-server"
-      },
-      "outputs": ["{options.outputPath}"]
+        "root": "apps/shopstack-server"
+      }
     },
     "dev": {
       "executor": "@nx/next:dev",
