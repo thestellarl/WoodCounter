@@ -116,7 +116,7 @@ const DashboardPage: React.FC = () => {
                     <TableCell align="right">Sale Amount</TableCell>
                   </TableRow>
                 </TableHead>
-                <TableBody>
+                {/* <TableBody>
                   {rows.map((row) => (
                     <TableRow key={row.id}>
                       <TableCell>{row.date}</TableCell>
@@ -126,7 +126,7 @@ const DashboardPage: React.FC = () => {
                       <TableCell align="right">{`$${row.amount}`}</TableCell>
                     </TableRow>
                   ))}
-                </TableBody>
+                </TableBody> */}
               </Table>
               <Link color="primary" href="#" onClick={preventDefault}>
                 See more orders
