@@ -53,7 +53,8 @@ export default function RootLayout({
                         variant="h4"
                         component="h1"
                         noWrap
-                        sx={{ fontWeight: 'bold', color: 'black', flexGrow: 1 }}
+                        flexGrow={1}
+                        sx={{ fontWeight: 'bold', color: 'black' }}
                       >
                         ShopStack
                       </Typography>
