@@ -51,10 +51,14 @@ export default function RootLayout({
                   >
                     <Link href="/" underline="none" flexGrow={1}>
                       <Typography
-                        variant="h4"
+                        variant="h2"
                         component="h1"
                         noWrap
-                        sx={{ fontWeight: 'bold', color: 'black' }}
+                        sx={{
+                          fontWeight: 'bold',
+                          color: 'white',
+                        }}
+                        bold
                       >
                         ShopStack
                       </Typography>

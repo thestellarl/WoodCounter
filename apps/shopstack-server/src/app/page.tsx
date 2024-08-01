@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { FaEllipsisV } from 'react-icons/fa';
 
 interface Stream {
   id: string;
@@ -28,18 +29,14 @@ const DashboardPage: React.FC = () => {
     { id: '1', name: 'Stream 1' },
     { id: '2', name: 'Stream 2' },
     { id: '3', name: 'Stream 3' },
+    { id: '3', name: 'Stream 3' },
+    { id: '3', name: 'Stream 3' },
+    { id: '3', name: 'Stream 3' },
+    { id: '3', name: 'Stream 3' },
+    { id: '3', name: 'Stream 3' },
   ]);
-
-  const [rows, setRows] = useState([]);
-
   const [activeOptions, setActiveOptions] = useState<string | null>(null);
   const optionsRef = React.useRef<HTMLDivElement>(null);
-
-  const handleCreateStream = () => {
-    // Implement create stream logic
-    console.log('Creating new stream...');
-  };
-
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -62,14 +59,21 @@ const DashboardPage: React.FC = () => {
   };
 
   const renderTile = (id: string, name: string) => (
-    <Grid item xs={12} sm={6} md={4} key={id}>
+    <Grid
+      item
+      xs={12}
+      sm={6}
+      md={4}
+      key={id}
+      onMouseOver={() => console.log('hover')}
+    >
       <Link href={`/streams/${id}`}>
         <Card>
-          <CardContent>
+          <CardContent sx={{ position: 'relative' }}>
             <Typography variant="h6" component="h2" gutterBottom>
               {name}
             </Typography>
-            {/* <IconButton
+            <IconButton
               onClick={(e) => handleStreamOptions(id, e)}
               sx={{
                 position: 'absolute',
@@ -83,7 +87,7 @@ const DashboardPage: React.FC = () => {
               }}
             >
               <FaEllipsisV />
-            </IconButton> */}
+            </IconButton>
           </CardContent>
         </Card>
       </Link>
