@@ -2,6 +2,7 @@ import {
   AppBar,
   Badge,
   Box,
+  Container,
   IconButton,
   Link,
   ThemeProvider,
@@ -48,12 +49,11 @@ export default function RootLayout({
                       pr: '24px',
                     }}
                   >
-                    <Link href="/" underline="none">
+                    <Link href="/" underline="none" flexGrow={1}>
                       <Typography
                         variant="h4"
                         component="h1"
                         noWrap
-                        flexGrow={1}
                         sx={{ fontWeight: 'bold', color: 'black' }}
                       >
                         ShopStack
@@ -66,7 +66,12 @@ export default function RootLayout({
                     </IconButton>
                   </Toolbar>
                 </AppBar>
-                <MainBox>{children}</MainBox>
+                <MainBox>
+                  <Toolbar />
+                  <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+                    {children}
+                  </Container>
+                </MainBox>
               </Box>
             </GoogleOAuthProviderWrapper>
           </ThemeProvider>

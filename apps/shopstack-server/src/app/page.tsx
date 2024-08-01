@@ -12,6 +12,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  Toolbar,
   Typography,
 } from '@mui/material';
 import Link from 'next/link';
@@ -94,48 +95,9 @@ const DashboardPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Main content */}
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <Container disableGutters maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          <Grid container spacing={3}>
-            {streams.map(({ id, name }) => renderTile(id, name))}
-          </Grid>
-        </Container>
-        <Grid item xs={12}>
-          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-            <React.Fragment>
-              <Typography>Recent Orders</Typography>
-              <Table size="small">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Ship To</TableCell>
-                    <TableCell>Payment Method</TableCell>
-                    <TableCell align="right">Sale Amount</TableCell>
-                  </TableRow>
-                </TableHead>
-                {/* <TableBody>
-                  {rows.map((row) => (
-                    <TableRow key={row.id}>
-                      <TableCell>{row.date}</TableCell>
-                      <TableCell>{row.name}</TableCell>
-                      <TableCell>{row.shipTo}</TableCell>
-                      <TableCell>{row.paymentMethod}</TableCell>
-                      <TableCell align="right">{`$${row.amount}`}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody> */}
-              </Table>
-              <Link color="primary" href="#" onClick={preventDefault}>
-                See more orders
-              </Link>
-            </React.Fragment>
-          </Paper>
-        </Grid>
-      </main>
-    </div>
+    <Grid container spacing={3}>
+      {streams.map(({ id, name }) => renderTile(id, name))}
+    </Grid>
   );
 };
 
